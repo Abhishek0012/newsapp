@@ -5,7 +5,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        Hello this is my first react app
+        Hello I am learning react
       </div>
     )
   }
