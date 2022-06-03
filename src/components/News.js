@@ -50,11 +50,11 @@ export class News extends Component {
     this.state = {
       loading : false ,
       article: this.article , 
-      page : 1 
+      page : 1 ,
     }
   }
   async componentDidMount() {
-    let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=1ce723ddf42c40ef8b767aaf5511fce9&page=${this.state.page+1}&pageSize=${this.props.pagecount}`
+    let url = `https://newsapi.org/v2/everything?q=${this.props.category}&from=2022-06-01&to=2022-06-01&sortBy=popularity&apiKey=1ce723ddf42c40ef8b767aaf5511fce9&page=1&pageSize=${this.props.pagecount}`;
     this.setState({loading:true});
     let data = await fetch(url);
     let parsedData = await data.json();
@@ -64,7 +64,7 @@ export class News extends Component {
     })
   }
   handleNext = async ()=>{
-    let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=1ce723ddf42c40ef8b767aaf5511fce9&page=${this.state.page+1}&pageSize=${this.props.pagecount}`
+    let url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=1ce723ddf42c40ef8b767aaf5511fce9&page=${this.state.page+1}&pageSize=${this.props.pagecount}`
     this.setState({loading:true});
     let data = await fetch(url);
     let parsedData = await data.json();
@@ -76,7 +76,7 @@ export class News extends Component {
 
   }
   handlePrevious = async ()=>{
-    let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=1ce723ddf42c40ef8b767aaf5511fce9&page=${this.state.page-1}&pageSize=${this.props.pagecount}`
+    let url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=1ce723ddf42c40ef8b767aaf5511fce9&page=${this.state.page-1}&pageSize=${this.props.pagecount}`
     this.setState({loading:true});
     let data = await fetch(url);
     let parsedData = await data.json();
@@ -89,12 +89,12 @@ export class News extends Component {
   render() {
     return (
       <div className='container my-3'>
-        <h2 className="text-center">Top headlines for Today - News24/7</h2>
+        <h2 className="text-center">{`Top headlines for Today`} - News24/7</h2>
         {this.state.loading ? <Wait/> : ""}
         <div className="row my-3">
           {this.state.article.map((element) => {
-            return !this.state.loading && <div className="col-4" key={element.url}>
-              <Newsitem title={element.title} description={element.description} imageUrl={element.urlToImage} newsUrl={element.url}/>
+            return !this.state.loading && <div className="col-md-4 col-sm-12" key={element.url}>
+              <Newsitem title={element.title} description={element.description} imageUrl={element.urlToImage} newsUrl={element.url} author={element.author} time={element.publishedAt} source={element.source.name}/>
             </div>
           })}
         </div>
